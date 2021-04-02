@@ -18,6 +18,12 @@ function getTempCity(cityName , cb){
     const url = `http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=${cityName}`
 
     request(url, { json: true }, function (error, response, body) {
-        console.log(body.main.temp);
+        if(error) return cb(error)
+        if(body.message) return cb(body.message)
+        return cb(null ,body.main.temp);
     });
 }
+
+getTempCity('Ha' , (error , temp) => {
+    console.log(error || temp)
+})
