@@ -99,7 +99,16 @@ function tru(a, b) {
     })
 }
 
-cong(1, 2)
-.then(tong => tru(tong , 3))
-.then(hieu => console.log(hieu))
-.catch(error => console.log(error))
+async function xuly(){
+    // await chỉ sử dụng cho async function
+    // await sẽ dùng các function return promise
+    try {
+        const tong = await cong(2, 2);
+        const hieu = await tru(tong, 5)
+        console.log(hieu);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+xuly();
