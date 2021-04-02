@@ -28,24 +28,9 @@ const request = require('request');
 //     console.log(error || temp)
 // })
 
-2 + 3 - 5
 
-function cong(a , b , cb) {
-    const url = `https://pheptinhonline.herokuapp.com/cong/${a}/${b}`
 
-    request(url, { json: true }, function (error, response, body) {
-        if (error) return cb(error)
-        return !body.success ? cb(body.message) : cb(null , body.message);
-    });
-}
-function tru(a, b, cb) {
-    const url = `https://pheptinhonline.herokuapp.com/tru/${a}/${b}`
 
-    request(url, { json: true }, function (error, response, body) {
-        if (error) return cb(error)
-        return !body.success ? cb(body.message) : cb(null, body.message);
-    });
-}
 
 function nhan(a, b, cb) {
     const url = `https://pheptinhonline.herokuapp.com/nhan/${a}/${b}`
@@ -65,4 +50,56 @@ function chia(a, b, cb) {
     });
 }
 
-tru(1 , 2 , (error , tong) => console.log(error || tong))
+// tru(1 , 2 , (error , tong) => console.log(error || tong))
+
+// 2 + 3 - 5
+
+// cong(2 , 3 , (error ,tong) => {
+//     if (error) return console.log(error)
+//     tru(tong , 5 , (error , hieu) => {
+//         if (error) return console.log(error)
+//         return console.log(hieu)
+//     })
+// })
+
+// promise 
+
+
+// function cong(a, b, cb) {
+//     const url = `https://pheptinhonline.herokuapp.com/cong/${a}/${b}`
+
+//     request(url, { json: true }, function (error, response, body) {
+//         if (error) return cb(error)
+//         return !body.success ? cb(body.message) : cb(null, body.message);
+//     });
+// }
+
+
+function cong(a, b) {
+    return new Promise((resolve , reject) => {
+        const url = `https://pheptinhonline.herokuapp.com/cong/${a}/${b}`
+
+        request(url, { json: true }, function (error, response, body) {
+            if (error) return reject(error)
+            if (!body.success) return reject(body.message);
+            return resolve(body.message);
+        });
+    })
+}
+
+function tru(a, b) {
+    return new Promise((resolve, reject) => {
+        const url = `https://pheptinhonline.herokuapp.com/tru/${a}/${b}`
+
+        request(url, { json: true }, function (error, response, body) {
+            if (error) return reject(error)
+            if (!body.success) return reject(body.message);
+            return resolve(body.message);
+        });
+    })
+}
+
+cong(1, 2)
+.then(tong => tru(tong , 3))
+.then(hieu => console.log(hieu))
+.catch(error => console.log(error))
