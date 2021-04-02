@@ -12,8 +12,12 @@
 
 const request = require('request');
 
-const url = 'http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=Hanoi'
 
-request(url, function (error, response, body) {
-    console.log(body);
-});
+
+function getTempCity(cityName , cb){
+    const url = `http://api.openweathermap.org/data/2.5/weather?appid=86183a23377ed034aef7aad102f43d64&units=metric&q=${cityName}`
+
+    request(url, { json: true }, function (error, response, body) {
+        console.log(body.main.temp);
+    });
+}
